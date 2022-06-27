@@ -23,23 +23,20 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        List<City> citiesSortByName = citiesRepository.getCityList();
-        citiesSortByName.sort(
+
+        citiesRepository.getCityList().sort(
                 Comparator.comparing(a -> a.getName().toLowerCase())
         );
-
-        List<City> citiesSortByDistrictAndName = citiesRepository.getCityList();
-        citiesSortByDistrictAndName.sort(
-                Comparator.comparing(City::getDistrict).thenComparing(City::getName)
-        );
-
         System.out.println("Пример полученного результата для сортировки по наименованию:");
-        for (City c : citiesSortByName) {
+        for (City c : citiesRepository.getCityList()) {
             System.out.println(c);
         }
 
+        citiesRepository.getCityList().sort(
+                Comparator.comparing(City::getDistrict).thenComparing(City::getName)
+        );
         System.out.println("Пример полученного результата для сортировки по двум полям справочника – федеральному округу и наименованию города:");
-        for (City c : citiesSortByDistrictAndName) {
+        for (City c : citiesRepository.getCityList()) {
             System.out.println(c);
         }
     }
