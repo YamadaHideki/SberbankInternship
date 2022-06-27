@@ -3,6 +3,8 @@ package com.example;
 import com.example.model.City;
 import com.example.repository.CitiesRepository;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
@@ -21,8 +23,18 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        for (City c : citiesRepository.getCityList()) {
-            System.out.println(c);
+
+        Map<String, Integer> filterMap = new HashMap<>();
+        citiesRepository.getCityList()
+                .forEach(s -> {
+                    if (!filterMap.containsKey(s.getRegion())) {
+                        filterMap.put(s.getRegion(), 1);
+                    } else {
+                        filterMap.put(s.getRegion(), filterMap.get(s.getRegion()) + 1);
+                    }
+                });
+        for (Map.Entry<String, Integer> s : filterMap.entrySet()) {
+            System.out.println(s.getKey() + " - " + s.getValue());
         }
     }
 }
