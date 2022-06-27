@@ -21,8 +21,18 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        for (City c : citiesRepository.getCityList()) {
-            System.out.println(c);
+
+        City[] citiesArr = citiesRepository.getCityList().toArray(new City[0]);
+        int max = 0;
+        int position = 0;
+
+        for (int i = 0; i < citiesArr.length; i++) {
+            City city = citiesArr[i];
+            if (max < city.getPopulation()) {
+                position = i;
+                max = city.getPopulation();
+            }
         }
+        System.out.println("[" + position + "]" + " = " + max);
     }
 }
