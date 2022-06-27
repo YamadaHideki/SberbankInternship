@@ -3,6 +3,8 @@ package com.example;
 import com.example.model.City;
 import com.example.repository.CitiesRepository;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
@@ -22,17 +24,17 @@ public class Main {
             e.printStackTrace();
         }
 
-        City[] citiesArr = citiesRepository.getCityList().toArray(new City[0]);
-        int max = 0;
-        int position = 0;
-
-        for (int i = 0; i < citiesArr.length; i++) {
-            City city = citiesArr[i];
-            if (max < city.getPopulation()) {
-                position = i;
-                max = city.getPopulation();
-            }
+        Map<String, Integer> filterMap = new HashMap<>();
+        citiesRepository.getCityList()
+                .forEach(s -> {
+                    if (!filterMap.containsKey(s.getRegion())) {
+                        filterMap.put(s.getRegion(), 1);
+                    } else {
+                        filterMap.put(s.getRegion(), filterMap.get(s.getRegion()) + 1);
+                    }
+                });
+        for (Map.Entry<String, Integer> s : filterMap.entrySet()) {
+            System.out.println(s.getKey() + " - " + s.getValue());
         }
-        System.out.println("[" + position + "]" + " = " + max);
     }
 }
